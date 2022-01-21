@@ -1,0 +1,21 @@
+{
+  "name": "puppy-ali-scrapper",
+  "engine": {
+    "node": "14.17.3"
+  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devStart": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "puppeteer": "^13.0.1"
+  }
+}
