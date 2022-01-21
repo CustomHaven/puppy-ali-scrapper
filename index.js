@@ -179,7 +179,7 @@ app.get('/aliscraper/:uri', async (req, res) => {
 
 app.get('/nothing', (req, res) => {
   res.send('Hello nothing');
-})
+});
 
 app.listen(PORT, () => console.log(`Server is listening on port #${PORT}`));
 
