@@ -132,6 +132,7 @@ async function monitor(url) {
   const desc = await productDescription(config.page);
   // const rev = await productReviews(config.page); // nothing atm cant be asked to fetch reviews might do in the future..
   const obj = {
+    owner: 'Made with love by CustomHaven',
     name,
     banner,
     sku,
