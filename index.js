@@ -5,25 +5,6 @@ const puppeteer = require('puppeteer');
 const app = express();
 const PORT = process.env.PORT || 4001;
 
-/*
-// Kayak boat orange
-const kayak = 'https://www.aliexpress.com/item/1005002984636876.html';
-
-//  Kayak vest
-const vest = 'https://www.aliexpress.com/item/1005003213860929.html';
-
-// Waterproof phone protector plastic case bag
-const waterproof = 'https://www.aliexpress.com/item/1005001878001337.html';
-// Good images but no white background image plastic phone protector cage bag
-const noImgWaterproof = 'https://www.aliexpress.com/item/1005002863338788.html';
-
-// Swimming goggles
-const goggles = 'https://www.aliexpress.com/item/32697077590.html';
-
-// const url = 'https://www.aliexpress.com/item/1005003413518415.html';
-// const url = 'https://www.aliexpress.com/item/1005003352859996.html';
-*/
-//
 async function configureBrowser(url) {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -31,7 +12,6 @@ async function configureBrowser(url) {
 
   const page = await browser.newPage();
   await page.setViewport({ width: 1366, height: 820 });
-  // page.waitForNavigation();
   await page.setDefaultNavigationTimeout(0); // Why? My computer is super slow!!
 
   await page.goto(url, { waitUntil: 'networkidle0', timeout: 0 });
@@ -151,7 +131,6 @@ async function monitor(url) {
   const sku = await productSKU(config.page);
   const desc = await productDescription(config.page);
   // const rev = await productReviews(config.page); // nothing atm cant be asked to fetch reviews might do in the future..
-  // console.log(sku);
   const obj = {
     name,
     banner,
@@ -162,39 +141,14 @@ async function monitor(url) {
   return obj;
 };
 
-// monitor()
-
 app.get('/aliscraper/:uri', async (req, res) => {
   try {
-    // monitor().then(ss => console.log(ss)).catch(err => console.log('fault' + err)); // scrapping complete!
     const url = 'https://www.aliexpress.com/item/' + req.params.uri + '.html';
-    console.log(url);
-    const scrape = await monitor(url); // scrapping complete!
-    console.log(scrape);
+    const scrape = await monitor(url);
     res.status(200).send(scrape);
   } catch (error) {
     res.status(500).send(error);
   }
 });
 
-app.get('/nothing', (req, res) => {
-  res.send('Hello nothing');
-});
-
 app.listen(PORT, () => console.log(`Server is listening on port #${PORT}`));
-
-
-/*
-web: node index.js
-heroku buildpacks:add heroku/nodejs -a puppy-ali-scrapper
-heroku buildpacks:add jontewks/puppeteer -a puppy-ali-scrapper
-heroku buildpacks:publish https://github.com/heroku/heroku-buildpack-google-chrome master
-heroku buildpacks:publish https://github.com/heroku/heroku-buildpack-google-chrome -a puppy-ali-scrapper
-heroku buildpacks:publish heroku/google-chrome master
-heroku buildpacks:add https://github.com/jontewks/puppeteer-heroku-buildpack
-heroku buildpacks:add https://github.com/jontewks/puppeteer-heroku-buildpack
-heroku buildpacks:add heroku/
-heroku buildpacks:add heroku/google-chrome
-heroku buildpacks:add https://github.com/heroku/heroku-buildpack-google-chrome.git -a puppy-ali-scrapper
-
-*/
